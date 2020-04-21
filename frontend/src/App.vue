@@ -27,51 +27,21 @@
 				<!--这是平台的左边菜单-->
 				<ol id='main_menu' >
 					<li class='menu_layer_1' v-on:click="clickAuthMng"><img src="./assets/icons/auth_manage_icon.png" /><label>权限管理</label> </li>
-					<menu-item v-for="item in authItems" :key="item.tag" v-bind:item="item" v-bind:style="itemStyles[0]" v-on:click.native="displayedItem=item.tag"></menu-item>
+					<menu-item v-for="item in authMngItems" :key="item.tag" v-bind:item="item" v-bind:style="itemStyles[0]" v-on:click.native="displayedItem=item.tag"></menu-item>
 					<li class='menu_layer_1' v-on:click="clickStationMng"><img src="./assets/icons/edge_station_icon.png" /><label>小站管理</label> </li>
-					<menu-item v-for="item in authItems" :key="item.tag" v-bind:item="item" v-bind:style="itemStyles[1]" v-on:click.native="displayedItem=item.tag"></menu-item>
+					<menu-item v-for="item in stationMngItems" :key="item.tag" v-bind:item="item" v-bind:style="itemStyles[1]" v-on:click.native="displayedItem=item.tag"></menu-item>
 					<li class='menu_layer_1' v-on:click="clickNetworkSvc"><img src="./assets/icons/net_service_icon.png" /><label>网络服务</label> </li>
-                    <menu-item v-for="item in authItems" :key="item.tag" v-bind:item="item" v-bind:style="itemStyles[2]" v-on:click.native="displayedItem=item.tag"></menu-item>
+                    <menu-item v-for="item in netServiceItems" :key="item.tag" v-bind:item="item" v-bind:style="itemStyles[2]" v-on:click.native="displayedItem=item.tag"></menu-item>
 					<li class='menu_layer_1' v-on:click="clickSecurityDef"><img src="./assets/icons/security_protect_icon.png" /><label>安全防护</label> </li>
-                    <menu-item v-for="item in authItems" :key="item.tag" v-bind:item="item" v-bind:style="itemStyles[3]" v-on:click.native="displayedItem=item.tag"></menu-item>
+                    <menu-item v-for="item in securityDefItems" :key="item.tag" v-bind:item="item" v-bind:style="itemStyles[3]" v-on:click.native="displayedItem=item.tag"></menu-item>
 					<li class='menu_layer_1' v-on:click="clickDataProc"><img src="./assets/icons/data_processing_icon.png" /><label>数据处理</label> </li>
-                    <menu-item v-for="item in authItems" :key="item.tag" v-bind:item="item" v-bind:style="itemStyles[4]" v-on:click.native="displayedItem=item.tag"></menu-item>
+                    <menu-item v-for="item in dataProcItems" :key="item.tag" v-bind:item="item" v-bind:style="itemStyles[4]" v-on:click.native="displayedItem=item.tag"></menu-item>
 				</ol>
 				
 				
 				<!--这是平台右边操作区-->
 				
-				<div  class='op-space' style="float: left; ">
-          
-					<p style="background-color: aliceblue; height: 20px;padding-top: 0px;margin: 0px;">{{displayedMenu}}{{displayedItem}}</p>
-					<!--
-					<big-tag></big-tag>
-					<big-tag></big-tag>
-					<big-tag></big-tag>
-					<big-tag></big-tag>
-					<big-tag></big-tag>
-					-->
-					<!--首先来个搜索区域-->
-					<div>
-						<search-block v-bind:fields="fields"></search-block>
-					</div>
-					<!--然后来个操作栏-->
-					<div id='nav'>
-						<p style="background-color: #F0F8FF;">这是操作栏，根实例数据有：{{fields}} </p>
-						<router-link to='/search-block'>SearchBlock</router-link>|
-						<router-link to='/home'>Home</router-link>|
-						<router-link to='/about'>About</router-link>
-						<router-view/>
-            
-					</div>
-					<!--表格，或者说信息显示区-->
-					
-					<div>
-						
-					</div>
-					<!--信息显示区的状态栏-->
-       
-				</div>
+				<router-view/>
 				
 				
 			</div>
@@ -79,30 +49,43 @@
 </template>
 
 <script>
-import menuItem from '@/components/menuitem.vue'
-import searchBlock from '@/components/searchblock.vue'
+import menuitem from './components/menuitem.vue'
 
 export default {
+	components: {
+		'menu-item': menuitem
+	},
 	
-    components: {
-    'menu-item': menuItem,
-    'search-block': searchBlock,
-    },
     //component data 
     data: function(){
       return {
 				message: 'bad',
 				title: 'hello, this is title',
-				authItems: [
-					{tag:'用户管理',imgRsc:require('./assets/icons/manu_layer_2_user.png')},
-					{tag:'角色管理',imgRsc:require('./assets/icons/manu_layer_2_role.png')},
-					{tag:'权限配置',imgRsc:require('./assets/icons/manu_layer_2_auth_config.png')},
+				authMngItems: [
+					{tag:'用户管理',imgRsc:require('./assets/icons/manu_layer_2_user.png'), url:'/authmng/usermng'},
+					{tag:'角色管理',imgRsc:require('./assets/icons/manu_layer_2_role.png'), url:'/home'},
+					{tag:'权限配置',imgRsc:require('./assets/icons/manu_layer_2_auth_config.png'), url:'/about'},
 					],
 					
 				stationMngItems: [
-					
+					{tag:'小站管理',imgRsc:require('./assets/icons/manu_layer_2_user.png'), url:'/about'},
+					{tag:'设备管理',imgRsc:require('./assets/icons/manu_layer_2_role.png'), url:'/about'},
 				],
 				
+				netServiceItems: [
+					{tag:'NetService',imgRsc:require('./assets/icons/manu_layer_2_user.png'), url:'/about'},
+					{tag:'VNF',imgRsc:require('./assets/icons/manu_layer_2_role.png'), url:'/about'},
+					{tag:'Template',imgRsc:require('./assets/icons/manu_layer_2_auth_config.png'), url:'/about'},
+				],
+				securityDefItems: [
+					{tag:'服务日志',imgRsc:require('./assets/icons/manu_layer_2_user.png'), url:'/about'},
+					{tag:'设备监控',imgRsc:require('./assets/icons/manu_layer_2_role.png'), url:'/about'},
+				],
+				dataProcItems: [
+					{tag:'数据集',imgRsc:require('./assets/icons/manu_layer_2_user.png'), url:'/about'},
+					{tag:'数据可视化',imgRsc:require('./assets/icons/manu_layer_2_role.png'), url:'/about'},
+					{tag:'处理程序',imgRsc:require('./assets/icons/manu_layer_2_auth_config.png'), url:'/about'},
+				],
 				//二层菜单项列表的样式绑定，主要使用display属性控制二层菜单项
 				//的显示与否
 				itemStyles:[
@@ -191,7 +174,7 @@ export default {
 <style>
 /* 主页的样式*/
 html,body{
-	font-family: 仿宋,georgia,;
+	font-family: 仿宋,georgia;
 	background-color: sandybrown;
 	height: 100%;
 	margin: 0px;

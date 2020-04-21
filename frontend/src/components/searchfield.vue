@@ -35,7 +35,7 @@ export default {
 	line-height: 25px;
 	flex-direction: row; 
 	margin: 0px; 
-	background-color: aliceblue;
+	background-color: aquamarine;
 	width: 70px;
 }
 /*搜索条目中的input框*/

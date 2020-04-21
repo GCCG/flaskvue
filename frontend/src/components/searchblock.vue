@@ -1,12 +1,16 @@
 <template>
-    <div class='searchblock'>
+	<div class='searchblock'>
 		<div>
-			<search-field v-bind:fields="fields" v-on:selectchanged='fieldChanged1' v-on:inputchanged='valueChanged1'></search-field>
-			<search-field v-bind:fields="fields" v-on:selectchanged='fieldChanged2' v-on:inputchanged='valueChanged2'></search-field>
-			<search-field v-bind:fields="fields" v-on:selectchanged='fieldChanged3' v-on:inputchanged='valueChanged3'></search-field>
+				<search-field v-bind:fields="fields" v-on:selectchanged='fieldChanged1' v-on:inputchanged='valueChanged1'></search-field>
+				<search-field v-bind:fields="fields" v-on:selectchanged='fieldChanged2' v-on:inputchanged='valueChanged2'></search-field>
+		</div>
+		<div>
+				<search-field v-bind:fields="fields" v-on:selectchanged='fieldChanged3' v-on:inputchanged='valueChanged3'></search-field>
+				<search-field v-bind:fields="fields" v-on:selectchanged='fieldChanged3' v-on:inputchanged='valueChanged4'></search-field>
 		</div>
 		<img v-bind:style='imgStyle' v-on:mouseleave='onMouseLeave' v-on:mouseup='onMouseUp' v-on:mousedown='onMouseDown' v-on:click='submitQuery' src="../assets/icons/search_icon.png" />
 	</div>
+    
 </template>
 
 <script>
@@ -21,6 +25,7 @@ export default {
     data: function(){
 		return {
 			queryInfo: [
+				{field:'',value:''},
 				{field:'',value:''},
 				{field:'',value:''},
 				{field:'',value:''},
@@ -45,6 +50,9 @@ export default {
 		fieldChanged3: function(field){
 			this.queryInfo[2].field = field
 		},
+		fieldChanged4: function(field){
+			this.queryInfo[3].field = field
+		},
 		valueChanged1: function(value){
 			this.queryInfo[0].value = value
 		},
@@ -53,6 +61,9 @@ export default {
 		},
 		valueChanged3: function(value){
 			this.queryInfo[2].value = value
+		},
+		valueChanged4: function(value){
+			this.queryInfo[3].value = value
 		},
 		submitQuery: function(){
             this.$emit('submitquery',this.queryInfo)
@@ -79,15 +90,20 @@ export default {
 	
 	border-style: dashed;
 	border-color: grey;
-	/*border-radius: 5px;*/
+	border-radius: 45px;
+
+	/*block的边界和填充 */
 	margin: 10px;
-	
-	padding-left: 3px;
-	padding-right: 3px;
+	padding-left: 40px;
+	padding-right: 40px;
 	display: flex; 
+
 	height: 100px; 
-	width: 320px;
+	/*width: 820px;*/
 	background-color: azure;
+
+	/*使得block的宽度适应里面元素的宽度占用 */
+	width: fit-content;
 }
 
 .searchblock img {
@@ -96,7 +112,7 @@ export default {
 	margin-top: 0px;
 	flex-direction: row;
 	align-self: center;
-	border-radius: 15px;
+	border-radius: 20px;
 	width: 50px; 
 	border-style: outset; 
 	border-color: aquamarine;
