@@ -91,6 +91,7 @@ export default {
 	border-style: dashed;
 	border-color: grey;
 	border-radius: 45px;
+	border-width: 2px;
 
 	/*block的边界和填充 */
 	margin: 10px;

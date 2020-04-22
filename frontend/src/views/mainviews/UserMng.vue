@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-04-20 10:14:45
+ * @LastEditTime: 2020-04-22 20:54:18
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /frontend/src/views/mainviews/UserMng.vue
+ -->
 <template>
 	<div class="op-space">
 		<!--这里来个搜索框-->
@@ -11,7 +19,7 @@
 		</div>
 
 		<!--这里来个信息框-->
-		<div class="block" style="overflow-x: scroll;overflow-y: scroll;position: absolute;top: 170px; bottom: 0px;left: 0px;right: 0px;background-color: wheat;">
+		<div class="block" style="overflow-x: scroll;overflow-y: scroll;position: absolute;top: 170px; bottom: 0px;left: 0px;right: 0px;">
 			<table-block v-bind:fields="tablefields" v-bind:rows="rows" ></table-block>
 		</div>
 		<!--这里来个状态栏-->
@@ -19,9 +27,9 @@
 </template>
 
 <script>
-import searchblock from "../components/searchblock"
-import operationbar from "../components/operationbar"
-import tableblock from "../components/tableblock"
+import searchblock from "../../components/searchblock"
+import operationbar from "../../components/operationbar"
+import tableblock from "../../components/tableblock"
 
 export default {
 	name: 'UserMng',
@@ -51,7 +59,8 @@ export default {
 }
 .block {
 	margin-top: 10px;
-	background-color: wheat; 
+	/*background-color: wheat; */
+	background-color: #CCFFFF;
 	margin-left:10px; 
 	margin-right:10px;
 }

@@ -1,5 +1,13 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-04-19 22:01:12
+ * @LastEditTime: 2020-04-22 17:06:16
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /frontend/src/components/menuitem.vue
+ -->
 <template>
-    <li class="menu_layer_2"><img v-bind:src="item.imgRsc" /><router-link class="linker" v-bind:to="item.url">{{item.tag}}</router-link> </li>
+    <li class="menu_layer_2" v-bind:style="item.style" ><img v-bind:src="item.imgRsc" /><router-link class="linker" v-bind:to="item.url">{{item.tag}}</router-link> </li>
 </template>
 
 <script>
@@ -17,6 +25,9 @@ export default {
 	margin-left: 40px;
 	padding-left: 5px;
 	width: 156px;
+
+	background-color: #99CCFF;
+
 	/*float: left;*/
 	display: flex;
 	/*没有下面这一项，li里面的内容就会自动居中，这是vue的默认配置吗，好恶心 */

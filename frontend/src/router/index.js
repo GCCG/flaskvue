@@ -1,36 +1,75 @@
+/*
+ * @Author: your name
+ * @Date: 2020-04-18 10:40:50
+ * @LastEditTime: 2020-04-22 11:09:06
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /frontend/src/router/index.js
+ */
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 //import About from '../views/About.vue'
 //import Mainview from '../views/Main.vue'
-import Searchblock from '../components/searchblock.vue'
-import UserMng from '../views/UserMng.vue'
+
+import UserMng from '../views/mainviews/UserMng.vue'
+import AuthView from '../views/Auth.vue'
+import AuthLogin from '../views/authviews/Login.vue'
+import AuthRegister from '../views/authviews/Register.vue'
+import AuthForgetPassword from '../views/authviews/ForgetPassword.vue'
+import MainPage from '../views/Main.vue'
+import BlankPage from '../views/mainviews/Blank.vue'
 
 Vue.use(VueRouter)
 
   const routes = [
-	
+  //鉴权界面
+	{
+    path: '/auth',
+    name: 'Auth',
+    component: AuthView,
+    children: [
+      {
+        path: '/auth/login',
+        name: 'AuthLogin',
+        component: AuthLogin
+      },
+      {
+        path: '/auth/register',
+        name: 'AuthRegister',
+        component: AuthRegister
+      },
+      {
+        path: '/auth/forget-password',
+        name: 'AuthForgetPassword',
+        component: AuthForgetPassword
+      },
+    ]
+  },
+  //主界面
+  {
+    path: '/main-page',
+    name: 'MainPage',
+    component: MainPage,
+    children:[
+      {
+        path: '/main-page/user-mng',
+        name: 'UserMng',
+        component: UserMng
+      },
+      {
+        path: '/main-page/blank',
+        name: 'Blank',
+        component: BlankPage
+      },
+    ]
+	},
   {
     path: '/',
     name: 'Home',
     component: Home
 	},
-	
-	{
-    path: '/home',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/search-block',
-    name: 'Search-Block',
-    component: Searchblock
-  },
-  {
-    path: '/authmng/usermng',
-    name: 'User-Mng',
-    component: UserMng
-	},
+
   {
     path: '/about',
     name: 'About',

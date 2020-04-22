@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-04-20 21:01:18
+ * @LastEditTime: 2020-04-22 21:00:34
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /frontend/src/components/operationbar.vue
+ -->
 <template>
     <div class='operationbar' >
 		<label >字段：4；条目：3；选中：0</label>
@@ -38,7 +46,8 @@ export default {
 .operationbar {
     height: 30px; 
     display: flex;
-    background-color: aliceblue; 
+    /*background-color: aliceblue;*/
+    background-color: inherit; 
     left: 0px; 
     right: 0px; 
     margin-left: 0px;
@@ -46,12 +55,16 @@ export default {
 }
 div label {
     font-family: 仿宋,georgia;
-    margin-bottom: 2px;
-    margin-top: 2px; 
+    margin-bottom: 0px;
+    margin-top: 0px; 
     margin-left: 0px;
     width: 400px;
-    background-color: antiquewhite; 
+    /*background-color: antiquewhite;*/
+    /*background-color: #FFFFCC; */
+    background-color: #FFCCCC;
     line-height: 30px;
+
+    border-radius: 5px;
 }
 
 div button {
