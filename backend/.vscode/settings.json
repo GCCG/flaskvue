@@ -1,0 +1,9 @@
+{
+    "python.pythonPath": "venv/bin/python3",
+    "python.linting.pylintEnabled": false,
+    "python.linting.enabled": true,
+    "python.linting.flake8Enabled": true,
+    
+    //Configuration for extension cornflakes-linter
+    "cornflakes.linter.executablePath": "/home/ccg/Workspace/Projects/flaskvue/backend/venv/bin/flake8"
+}
