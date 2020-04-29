@@ -2,7 +2,7 @@
 '''
 @Author: your name
 @Date: 2020-04-26 10:30:43
-@LastEditTime: 2020-04-28 17:13:19
+@LastEditTime: 2020-04-29 16:25:47
 @LastEditors: Please set LastEditors
 @Description: 在这里将应用的所有的API注册到APP
 @FilePath: /backend/flaskr/migrations/api.py
@@ -23,9 +23,26 @@ class Auth(Resource):
     pass
 
 
+"""
 class HelloWorld(Resource):
     def get(self):
         return {'hello': 'world'}
+ """
+
+class EntityType(Resource):
+    pass
+
+
+class Entity(Resource):
+    pass
+
+
+class Operation(Resource):
+    pass
+
+
+class Privilege(Resource):
+    pass
 
 
 group_fields = {
@@ -35,20 +52,21 @@ group_fields = {
 }
 
 
-group_list = {
+""" group_list = {
     fields.List(fields.Nested(group_fields))
-}
+} """
 
 group_response = {
     'message': fields.String,
     'group_list': fields.List(fields.Nested(group_fields))
 }
 
-
+'''
 class GroupList(Resource):
     @marshal_with(group_response, envelope='resource')
     def get(self, ):
         return {'message': '', 'group_list': model.Group.query.all()}
+'''
 
 
 class Group(Resource):
@@ -65,7 +83,7 @@ class Group(Resource):
             model.Group.description.like("%" + description + "%") if description is not None else text('')
         )
 
-        return {'message': '', 'group_list': results}
+        return {'message': 'group_id is %r' % group_id, 'group_list': results}
 
     def put(self):
         if request.form.get('group_name') is None:
@@ -114,8 +132,17 @@ class Group(Resource):
             return {'message': 'No group with id: %d' % group_id}
 
 
+class Role(Resource):
+    def get(self):
+        pass
+
+
+class User(Resource):
+    pass
+
+
 def init_app(app):
     api = Api(app)
-    api.add_resource(HelloWorld, '/helloworld')
-    api.add_resource(GroupList, '/api/grouplist')
+    # api.add_resource(HelloWorld, '/helloworld')
+    # api.add_resource(GroupList, '/api/grouplist')
     api.add_resource(Group, '/api/group')

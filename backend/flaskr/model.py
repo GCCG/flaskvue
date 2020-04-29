@@ -1,7 +1,7 @@
 '''
 @Author: your name
 @Date: 2020-04-23 15:16:31
-@LastEditTime: 2020-04-27 16:28:11
+@LastEditTime: 2020-04-29 16:02:27
 @LastEditors: Please set LastEditors
 @Description: In User Settings Edit
 @FilePath: /backend/flaskr/model.py
@@ -98,8 +98,12 @@ class Role(db.Model):
 
 class Privilege(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    # privilege_name = db.Column(db.String(80), nullable=False, unique=True)
     operation_id = db.Column(db.Integer, db.ForeignKey('operation.id'), nullable=False)
     entity_id = db.Column(db.Integer, db.ForeignKey('entity.id'), nullable=True)
+
+    operation = db.relationship('Operation', backref=db.backref('privileges', lazy=True))
+    entity = db.relationship('Entity', backref=db.backref('privileges', lazy=True))
 
     def __repr__(self):
         return '<Privilege %r>' % self.id
