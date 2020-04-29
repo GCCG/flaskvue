@@ -1,7 +1,7 @@
 '''
 @Author: your name
 @Date: 2020-04-21 11:01:42
-@LastEditTime: 2020-04-27 16:54:26
+@LastEditTime: 2020-04-28 15:53:45
 @LastEditors: Please set LastEditors
 @Description: In User Settings Edit
 @FilePath: /backend/flaskr/__init__.py
@@ -53,7 +53,7 @@ def create_app(test_config=None, need_db=0):
                 'description': admin.description,
                 'Tom': [1, 2, 3, 4, 5]}
         '''
-        return admin.jsonify()
+        return admin.group_name
 
     if need_db == 0:
         return app
