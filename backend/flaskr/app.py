@@ -1,29 +1,34 @@
 '''
 @Author: your name
 @Date: 2020-04-21 11:01:42
-@LastEditTime: 2020-04-28 15:53:45
+@LastEditTime: 2020-05-12 09:13:30
 @LastEditors: Please set LastEditors
-@Description: In User Settings Edit
+@Description: 为什么特地要搞这么一个文件只是创建一个app对象呢？因为如果app在__init__.py中的create_app中定义，就无法被
+导入到其他文件中使用。比如在manage.py中，需要使用app对象来初始化manager对象以用于
+管理数据库。包的__init__.py文件有一些特殊性。
 @FilePath: /backend/flaskr/__init__.py
 '''
-import os
 from flask import Flask
-from ext import db
-from model import Group
-import restful_api
+# from flaskr import restful_api
+# from flaskr.ext import db
+from . import ext
+# from model import Group
+# from flaskr import restful_api
+from . import api_blueprint
+import os
 
-def create_app(test_config=None, need_db=0):
+def create_app(config_file=None):
     # If option instance_relative_config is set true,
     # you should put your file in instance folder
     # which is in root folder of project.
-    app = Flask(__name__, instance_relative_config=True)
+    app = Flask('flaskr', instance_relative_config=True)
 
-    if test_config is None:
-        # Load app configuration file if it exists, when not testing
+    if config_file is None:
+        # Load default config file.
         app.config.from_pyfile('config.py')
     else:
-        # Load the test config if passed in
-        app.config.from_mapping(test_config)
+        # Load the config file if passed in.
+        app.config.from_pyfile(config_file)
 
     try:
         os.makedirs(app.instance_path)
@@ -31,31 +36,26 @@ def create_app(test_config=None, need_db=0):
         pass
 
     # Initiate database for your app
-    db.init_app(app)
+    ext.db.init_app(app)
 
     # Initiate APIs for your app
-    restful_api.init_app(app)
+    # restful_api.init_app(app)
+
+    # Register blueprint for restful_api
+    app.register_blueprint(api_blueprint.api_bp)
 
     @app.route('/hello')
     def hello():
-        return 'Hello,world!'
+        return 'Hello, world!'
 
     @app.route('/')
     def todo():
-        # admin_group = Group(group_name='admin', description='Superuser of this system')
-        # b.session.add(admin_group)
-        # db.session.commit()
-
-        admin = Group.query.filter_by(group_name='admin').first()
         '''
         return {'id': admin.id,
                 'group_name': admin.group_name,
                 'description': admin.description,
                 'Tom': [1, 2, 3, 4, 5]}
         '''
-        return admin.group_name
+        return 'helloworld'
 
-    if need_db == 0:
-        return app
-    elif need_db == 1:
-        return app, db
+    return app

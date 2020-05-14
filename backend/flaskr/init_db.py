@@ -1,13 +1,14 @@
 '''
 @Author: your name
 @Date: 2020-04-29 09:08:40
-@LastEditTime: 2020-04-29 16:15:49
+@LastEditTime: 2020-05-13 08:13:24
 @LastEditors: Please set LastEditors
 @Description: In User Settings Edit
 @FilePath: /backend/flaskr/init_db.py
 '''
-from app import create_app
-from model import Group, User, Role, Privilege, EntityType, Operation, Entity
+from .app import create_app
+from .ext import db
+from .model import Group, User, Role, Privilege, EntityType, Operation, Entity
 
 def create_entity_types(db):
     entity_type = EntityType(entity_type_name='entity_type', description='Entity types that the platform owns')
@@ -27,6 +28,8 @@ def create_entity_types(db):
     db.session.add(operation)
     db.session.commit()
 
+    print("EntityType created!")
+
 def create_operations(db):
     group_entity_type = EntityType.query.filter_by(entity_type_name='group').first()
     group_create = Operation(operation_name='CREATE')
@@ -41,43 +44,43 @@ def create_operations(db):
 
     db.session.commit()
 
+    print("Operation created!")
+
 def create_entity(db):
     entity = Entity(entity_name='ALL', description='This entity represents all entities which belong to one entity type,\
                                                     if one privilege relates to this entity, that means \
                                                     the operation which relates to this privilege can act on \
                                                     any entity belongs to the entity type to which the operation \
-                                                    belongs.')
+                                                    belongs.', entity_info_id=0)
     entity_type = EntityType.query.filter_by(entity_type_name='entity_type').first()
     entity_type.entities.append(entity)
 
-    db.session.commin()
+    db.session.commit()
+
+    print("Entity created!")
 
 
 def create_privileges(db):
     # Get entity that represents all entities in one type
-    entity_all = Entity.query.filter_by(entity_name='ALL')
+    entity_all = Entity.query.filter_by(entity_name='ALL').first()
 
-    create_p = Privilege()
-    create_p.entity = entity_all
-    create_p.operation = Operation.query.filter_by(operation_name='CREATE').first()
+    create_p = Privilege(entity=entity_all, operation=Operation.query.filter_by(operation_name='CREATE').first())
     db.session.add(create_p)
 
-    read_p = Privilege()
-    read_p.entity = entity_all
-    read_p.operation = Operation.query.filter_by(operation_name='READ').first()
+    read_p = Privilege(entity=entity_all, operation=Operation.query.filter_by(operation_name='READ').first())
     db.session.add(read_p)
 
-    update_p = Privilege()
-    update_p.entity = entity_all
-    update_p.operation = Operation.query.filter_by(operation_name='UPDATE').first()
+    update_p = Privilege(entity=entity_all, operation=Operation.query.filter_by(operation_name='UPDATE').first())
     db.session.add(update_p)
 
     delete_p = Privilege()
-    delete_p.entity = entity_all
     delete_p.operation = Operation.query.filter_by(operation_name='DELETE').first()
+    delete_p.entity = entity_all
     db.session.add(delete_p)
 
     db.session.commit()
+
+    print("Privilege created!")
 
 
 def create_groups(db):
@@ -88,6 +91,8 @@ def create_groups(db):
     db.session.add(admin_group)
     db.session.add(normal_group)
     db.session.commit()
+
+    print('Groups created!')
 
 def create_users(db):
     admin_group = Group.query.filter_by(group_name='admin_group').first()
@@ -100,25 +105,44 @@ def create_users(db):
     normal_group.users.append(chicken)
     db.session.commit()
 
+    print('Users created!')
+
 def create_roles(db):
     group_namager = Role(role_name='group_manager', description='The manager of groups of this platform')
-    entity_all = Entity.query.filter_by(entity_name='ALL')
+    print("role name is: %s" % group_namager.role_name)
+    entity_all = Entity.query.filter_by(entity_name='ALL').first()
     group_operations = EntityType.query.filter_by(entity_type_name='group').first().operations
     for operation in group_operations:
-        group_namager.privileges.append(Privilege.query.filter_by(operation_id=operation.id, entity_id=entity_all.id))
+        group_namager.privileges.append(
+            Privilege.query.filter_by(operation_id=operation.id, entity_id=entity_all.id).first())
 
+    db.session.add(group_namager)
     db.session.commit()
 
+    print("Roles created!")
+
 def config_privileges(db):
-    admin_group = Group.query.filter_by(group_name='admin_group')
+    admin_group = Group.query.filter_by(group_name='admin_group').first()
+    role = Role.query.filter_by(role_name='group_manager').first()
+    print("role name is: %s" % role.role_name)
     admin_group.roles.append(Role.query.filter_by(role_name='group_manager').first())
 
     db.session.commit()
 
+    print("Privilege configured!")
 
-app, db = create_app(need_db=1)
+
+app = create_app()
 with app.app_context():
+    db.init_app(app)
     db.drop_all()
     db.create_all()
+
+    create_entity_types(db)
+    create_operations(db)
+    create_entity(db)
+    create_privileges(db)
     create_groups(db)
     create_users(db)
+    create_roles(db)
+    config_privileges(db)

@@ -2,25 +2,18 @@
 '''
 @Author: your name
 @Date: 2020-04-26 10:30:43
-@LastEditTime: 2020-04-29 16:25:47
+@LastEditTime: 2020-05-12 09:00:16
 @LastEditors: Please set LastEditors
 @Description: 在这里将应用的所有的API注册到APP
 @FilePath: /backend/flaskr/migrations/api.py
 '''
 
-from flask_restful import Resource, Api
+from flask_restful import Resource  # , Api
 from flask_restful import fields, marshal_with
-import model
+from . import model
 from flask import request
-from ext import db
+from .ext import db
 from sqlalchemy import text
-
-
-class Auth(Resource):
-    '''
-    Do your login, register, change password here
-    '''
-    pass
 
 
 """
@@ -141,8 +134,8 @@ class User(Resource):
     pass
 
 
-def init_app(app):
-    api = Api(app)
-    # api.add_resource(HelloWorld, '/helloworld')
-    # api.add_resource(GroupList, '/api/grouplist')
-    api.add_resource(Group, '/api/group')
+# def init_app(app):
+#     api = Api(app)
+#     # api.add_resource(HelloWorld, '/helloworld')
+#     # api.add_resource(GroupList, '/api/grouplist')
+#     api.add_resource(Group, '/api/group')

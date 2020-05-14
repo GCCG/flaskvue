@@ -1,12 +1,13 @@
 '''
 @Author: your name
 @Date: 2020-04-23 15:16:31
-@LastEditTime: 2020-04-29 16:02:27
+@LastEditTime: 2020-05-14 08:16:21
 @LastEditors: Please set LastEditors
 @Description: In User Settings Edit
 @FilePath: /backend/flaskr/model.py
 '''
-from ext import db
+from .ext import db
+
 from flask import jsonify
 
 
@@ -36,6 +37,13 @@ class User(db.Model):
             group_id=self.group_id,
             gender=self.gender)
 
+    def set_name(self, user_name):
+        if user_name is not None:
+            self.user_name = user_name
+
+    def set_email(self, email):
+        if email is not None:
+            self.email = email
 
 group_role = db.Table(
     'group_role',
@@ -119,7 +127,7 @@ class Privilege(db.Model):
 class Operation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     entity_type_id = db.Column(db.Integer, db.ForeignKey('entity_type.id'), nullable=False)
-    operation_name = db.Column(db.String(80), unique=True, nullable=False)
+    operation_name = db.Column(db.String(80), unique=False, nullable=False)
     # restful_api = db.Column(db.String(80), unique=True, nullable=False)
     description = db.Column(db.Text, unique=False, nullable=True)
 
