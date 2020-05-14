@@ -1,7 +1,7 @@
 '''
 @Author: your name
 @Date: 2020-04-29 09:08:40
-@LastEditTime: 2020-05-13 08:13:24
+@LastEditTime: 2020-05-14 16:47:32
 @LastEditors: Please set LastEditors
 @Description: In User Settings Edit
 @FilePath: /backend/flaskr/init_db.py

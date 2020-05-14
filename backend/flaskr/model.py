@@ -1,7 +1,7 @@
 '''
 @Author: your name
 @Date: 2020-04-23 15:16:31
-@LastEditTime: 2020-05-14 08:16:21
+@LastEditTime: 2020-05-14 16:28:44
 @LastEditors: Please set LastEditors
 @Description: In User Settings Edit
 @FilePath: /backend/flaskr/model.py
@@ -37,13 +37,30 @@ class User(db.Model):
             group_id=self.group_id,
             gender=self.gender)
 
-    def set_name(self, user_name):
+    def set_user_name(self, user_name):
         if user_name is not None:
             self.user_name = user_name
 
     def set_email(self, email):
         if email is not None:
             self.email = email
+
+    def set_group(self, group):
+        if group is not None:
+            self.group = group
+
+    def set_password(self, password):
+        if password is not None:
+            self.password = password
+
+    def set_gender(self, gender):
+        if gender is not None:
+            self.gender = gender
+
+    def set_phone_number(self, phone_number):
+        if phone_number is not None:
+            self.phone_number = phone_number
+
 
 group_role = db.Table(
     'group_role',
@@ -72,6 +89,14 @@ class Group(db.Model):
             group_name=self.group_name,
             description=self.description
         )
+
+    def set_group_name(self, group_name):
+        if group_name is not None:
+            self.group_name = group_name
+
+    def set_description(self, description):
+        if description is not None:
+            self.description = description
 
 
 role_privilege = db.Table(
@@ -102,6 +127,14 @@ class Role(db.Model):
             role_name=self.role_name,
             description=self.description
         )
+
+    def set_role_name(self, role_name):
+        if role_name is not None:
+            self.role_name = role_name
+
+    def set_description(self, description):
+        if description is not None:
+            self.description = description
 
 
 class Privilege(db.Model):
@@ -179,6 +212,14 @@ class EntityType(db.Model):
             entity_type_name=self.entity_type_name,
             description=self.description
         )
+
+    def set_name(self, name):
+        if name is not None:
+            self.entity_type_name = name
+
+    def set_description(self, description):
+        if description is not None:
+            self.description = description
 
 
 class Station(db.Model):
