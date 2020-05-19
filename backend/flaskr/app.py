@@ -1,7 +1,7 @@
 '''
 @Author: your name
 @Date: 2020-04-21 11:01:42
-@LastEditTime: 2020-05-12 09:13:30
+@LastEditTime: 2020-05-18 11:18:42
 @LastEditors: Please set LastEditors
 @Description: 为什么特地要搞这么一个文件只是创建一个app对象呢？因为如果app在__init__.py中的create_app中定义，就无法被
 导入到其他文件中使用。比如在manage.py中，需要使用app对象来初始化manager对象以用于
@@ -16,12 +16,18 @@ from . import ext
 # from flaskr import restful_api
 from . import api_blueprint
 import os
+from flask_cors import CORS
 
 def create_app(config_file=None):
     # If option instance_relative_config is set true,
     # you should put your file in instance folder
     # which is in root folder of project.
     app = Flask('flaskr', instance_relative_config=True)
+
+    cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+
+    # Set secret key to enable session use.
+    app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
     if config_file is None:
         # Load default config file.

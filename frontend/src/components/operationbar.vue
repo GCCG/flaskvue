@@ -1,18 +1,18 @@
 <!--
  * @Author: your name
  * @Date: 2020-04-20 21:01:18
- * @LastEditTime: 2020-04-22 21:00:34
+ * @LastEditTime: 2020-05-19 14:56:17
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /frontend/src/components/operationbar.vue
  -->
 <template>
     <div class='operationbar' >
-		<label >字段：4；条目：3；选中：0</label>
-		<button type="button" >全选</button>
-		<button type="button" >删除</button>
-		<button type="button" >编辑</button>
-		<button type="button" >新增</button>
+		<label >字段：{{field_num}}；条目：{{row_num}}；选中：{{selected_num}}</label>
+		<button type="button" @click="onAllSelect">全选</button>
+		<button type="button" @click="onDelete">删除</button>
+		<button type="button" @click="onEdit">编辑</button>
+		<button type="button" @click="onAdd">新增</button>
 						
 	</div>
 
@@ -24,9 +24,10 @@ const eventName = 'tableoperation'
 
 export default {
     name: 'operation-bar',
-    props: ['tableInfo',],
+    props: ['field_num','row_num', 'selected_num'],
     methods:{
         onAllSelect: function(){
+            console.log('In onAllSelect')
             this.$emit(eventName,'SELECTALL')
         },
         onDelete: function(){

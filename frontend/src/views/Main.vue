@@ -16,6 +16,7 @@
     <router-view/>
 	<p>Information in root Instance is: {{info}}. Do you see it?</p>
 	-->
+	<!--这是平台的顶栏-->
 	<div id='myheader' >
 				<a id='appname' href="index.html">物联网云管平台</a>
 				<label id='userinfo'>User</label>
@@ -100,7 +101,7 @@ export default {
 					{display: 'none',},
 				],
 
-				//一层菜单的样式绑定，主要控制使用backgroundColor属性控制一层菜单的颜色
+				//一层菜单的样式绑定，主要使用backgroundColor属性控制一层菜单的颜色
 				menuStyles:[
 					{backgroundColor: NORMAL_MENU_COLOR,},
 					{backgroundColor: NORMAL_MENU_COLOR,},

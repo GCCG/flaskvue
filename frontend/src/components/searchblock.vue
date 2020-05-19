@@ -15,6 +15,7 @@
 
 <script>
 import searchField from '@/components/searchfield.vue'
+// import func from '../../vue-temp/vue-editor-bridge'
 
 export default {
     name:'search-block',
@@ -79,6 +80,10 @@ export default {
 		},
 		onMouseLeave: function(){
 			this.imgBorderStyle = 'outset'
+		},
+
+		onSearch: function(){
+			this.$emit('searching', this.queryInfo)
 		}
 	},
 }

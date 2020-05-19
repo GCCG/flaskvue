@@ -32,9 +32,9 @@ def create_entity_types(db):
 
 def create_operations(db):
     group_entity_type = EntityType.query.filter_by(entity_type_name='group').first()
-    group_create = Operation(operation_name='CREATE')
-    group_read = Operation(operation_name='READ')
-    group_update = Operation(operation_name='UPDATE')
+    group_create = Operation(operation_name='PUT')
+    group_read = Operation(operation_name='GET')
+    group_update = Operation(operation_name='POST')
     group_delete = Operation(operation_name='DELETE')
 
     group_entity_type.operations.append(group_create)
@@ -64,13 +64,13 @@ def create_privileges(db):
     # Get entity that represents all entities in one type
     entity_all = Entity.query.filter_by(entity_name='ALL').first()
 
-    create_p = Privilege(entity=entity_all, operation=Operation.query.filter_by(operation_name='CREATE').first())
+    create_p = Privilege(entity=entity_all, operation=Operation.query.filter_by(operation_name='PUT').first())
     db.session.add(create_p)
 
-    read_p = Privilege(entity=entity_all, operation=Operation.query.filter_by(operation_name='READ').first())
+    read_p = Privilege(entity=entity_all, operation=Operation.query.filter_by(operation_name='GET').first())
     db.session.add(read_p)
 
-    update_p = Privilege(entity=entity_all, operation=Operation.query.filter_by(operation_name='UPDATE').first())
+    update_p = Privilege(entity=entity_all, operation=Operation.query.filter_by(operation_name='POST').first())
     db.session.add(update_p)
 
     delete_p = Privilege()
