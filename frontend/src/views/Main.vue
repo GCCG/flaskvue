@@ -51,10 +51,10 @@
 
 <script>
 import menuitem from '../components/menuitem.vue'
-const NORMAL_ITEM_STYLE = {backgroundColor: '#99CCFF'}
-const SELECTED_ITEM_STYLE = {backgroundColor: '#FFFFCC'}
+const NORMAL_ITEM_STYLE = {backgroundColor: '#CCFFFF'}
+const SELECTED_ITEM_STYLE = {backgroundColor: '#FFCCCC'}
 const NORMAL_MENU_COLOR = '#CCFFCC'
-const SELECTED_MENU_COLOR = '#FFFFCC'
+const SELECTED_MENU_COLOR = '#FFCCCC'
 
 export default {
 	components: {
@@ -68,12 +68,13 @@ export default {
 				title: 'hello, this is title',
 				authMngItems: [
 					{tag:'用户管理',imgRsc:require('../assets/icons/manu_layer_2_user.png'), url:'/main-page/user-mng', style: NORMAL_ITEM_STYLE},
-					{tag:'角色管理',imgRsc:require('../assets/icons/manu_layer_2_role.png'), url:'/main-page/blank', style: NORMAL_ITEM_STYLE},
-					{tag:'权限配置',imgRsc:require('../assets/icons/manu_layer_2_auth_config.png'), url:'/main-page/blank', style: NORMAL_ITEM_STYLE},
+					{tag:'角色管理',imgRsc:require('../assets/icons/manu_layer_2_role.png'), url:'/main-page/role-mng', style: NORMAL_ITEM_STYLE},
+					{tag:'群组管理',imgRsc:require('../assets/icons/manu_layer_2_user_group.png'), url:'/main-page/group-mng', style: NORMAL_ITEM_STYLE},
+					{tag:'权限配置',imgRsc:require('../assets/icons/manu_layer_2_auth_config.png'), url:'/main-page/auth-config', style: NORMAL_ITEM_STYLE},
 					],
 					
 				stationMngItems: [
-					{tag:'小站管理',imgRsc:require('../assets/icons/manu_layer_2_user.png'), url:'/main-page/blank', style: NORMAL_ITEM_STYLE},
+					{tag:'小站管理',imgRsc:require('../assets/icons/manu_layer_2_user.png'), url:'/main-page/station-mng', style: NORMAL_ITEM_STYLE},
 					{tag:'设备管理',imgRsc:require('../assets/icons/manu_layer_2_role.png'), url:'/main-page/blank', style: NORMAL_ITEM_STYLE},
 				],
 				
@@ -349,7 +350,7 @@ td,th {
 	margin: 0px;
 }
 
-/*操作区的样式*/
+/*工作区的样式*/
 .op-space {
 	position: absolute;
 	top: 60px;
@@ -373,10 +374,14 @@ td,th {
 	
 	display: flex;
 	/*边框的属性*/
-	border-style: outset;
+	/* border-style: outset; */
+	border-style: solid;
 	/*border-color:aquamarine;*/
-	border-color: #FFFFFF;
-	border-radius: 10px;
+	/* border-color: #FFFFFF; */
+	border-color: #66CCFF;
+	border-radius: 5px;
+	border-width: 1px;
+	/* border-right-width: 0px; */
 	
 }
 

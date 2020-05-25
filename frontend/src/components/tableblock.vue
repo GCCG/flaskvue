@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-04-20 21:16:04
- * @LastEditTime: 2020-05-19 15:31:29
+ * @LastEditTime: 2020-05-22 10:11:24
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /frontend/src/components/tableblock.vue
@@ -36,27 +36,30 @@ export default {
 		}
 	},
 	watch:{
-		rows: function(rows){
-			console.log("updated data, rows length is: "+rows.length)
-			this.selectedRows = new Array(rows.length).fill(0)
-			this.selectedNum = 0
-			//this.rowStyles = new Array(rows.length).fill({backgroundColor: NORMAL_ROW_COLOR})
-			this.rowStyles = []
-			for(let i=0; i<this.rows.length; i++){
-				this.rowStyles.push({backgroundColor: NORMAL_ROW_COLOR,}) 
-			}
-			this.$emit(SELECTION_EVENT, this.selectedRows, this.selectedNum)
-		},
+		rows:{ 
+			handler: function(rows){
+				console.log("updated data, rows length is: "+rows.length)
+				this.selectedRows = new Array(rows.length).fill(0)
+				this.selectedNum = 0
+				//this.rowStyles = new Array(rows.length).fill({backgroundColor: NORMAL_ROW_COLOR})
+				this.rowStyles = []
+				for(let i=0; i<this.rows.length; i++){
+					this.rowStyles.push({backgroundColor: NORMAL_ROW_COLOR,}) 
+				}
+				this.$emit(SELECTION_EVENT, this.selectedRows, this.selectedNum)
+			},
+			immediate: true
+		}
 	},
 	
 	methods: {
 		onClickTr: function(num){
 			console.log('In onClickTr, num is: '+num)
-			console.log('rowStyles is: '+JSON.stringify(this.rowStyles))
+			// console.log('rowStyles is: '+JSON.stringify(this.rowStyles))
 			if(this.selectedRows[num]==0){
 				this.selectedRows[num] = 1
 				this.selectedNum += 1
-				console.log("changed color of row "+num)
+				// console.log("changed color of row "+num)
 				this.rowStyles[num].backgroundColor = SELECTED_ROW_COLOR
 			}
 			else{
@@ -65,7 +68,7 @@ export default {
 				console.log("changed color of row "+num)
 				this.rowStyles[num].backgroundColor = NORMAL_ROW_COLOR
 			}
-			console.log("current selectedRows: "+this.selectedRows)
+			// console.log("current selectedRows: "+this.selectedRows)
 			// console.log("current rowStyles: "+this.rowStyles[0].backgroundColor+this.rowStyles[1].backgroundColor+this.rowStyles[2].backgroundColor)
 			this.$emit(SELECTION_EVENT, this.selectedRows, this.selectedNum)
 		},
@@ -102,7 +105,7 @@ export default {
 table {
 	min-width: 100%;
 	margin: 0 auto;
-	/*border-radius: 8px;*/
+	border-radius: 5px;
 }
 
 /* 表格的样式*/

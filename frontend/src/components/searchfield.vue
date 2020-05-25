@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-04-20 11:11:17
+ * @LastEditTime: 2020-05-22 15:11:51
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /frontend/src/components/searchfield.vue
+--> 
 <template>
     <div style="display: flex; ">
 		<select class='fieldselect' v-model='selectedField' v-on:change='selectChanged' >
@@ -29,19 +37,19 @@ export default {
 /*搜索条目中的select框*/
 .fieldselect {
 	border-width: 2px;
-	border-radius: 12px;
+	border-radius: 5px;
 	border-color: gray;
 	border-style: solid;
 	line-height: 25px;
 	flex-direction: row; 
 	margin: 0px; 
-	background-color: aquamarine;
+	background-color: #CCFFFF;
 	width: 70px;
 }
 /*搜索条目中的input框*/
 .fieldvalue {
 	border-width: 2px;
-	border-radius: 12px;
+	border-radius: 5px;
 	border-color: gray;
 	border-style: solid;
 	line-height: 25px;

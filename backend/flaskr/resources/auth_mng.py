@@ -1,7 +1,7 @@
 '''
 @Author: your name
 @Date: 2020-05-11 15:46:14
-@LastEditTime: 2020-05-19 11:41:40
+@LastEditTime: 2020-05-25 08:53:32
 @LastEditors: Please set LastEditors
 @Description: In User Settings Edit
 @FilePath: /backend/flaskr/resources/auth_mng.py
@@ -14,7 +14,7 @@ from .. import model
 from flask import request
 from ..ext import db
 from sqlalchemy import text
-from .auth import check_access_permission, check_auth_token
+# from .auth import check_access_permission, check_auth_token
 
 
 K_ENTITY_TYPE_ID = 'entity_type_id'
@@ -285,44 +285,50 @@ class Group(Resource):
     @marshal_with(group_response, envelope='resource')
     def get(self):
         try:
-            group_id = request.args['id']
+            group_id = request.args[K_GROUP_ID]
         except BaseException:
             group_id = None
         try:
-            group_name = request.args['group_name']
+            group_name = request.args[K_GROUP_NAME]
         except BaseException:
             group_name = None
         try:
-            description = request.args['description']
+            description = request.args[K_GROUP_DESCRIPTION]
         except BaseException:
             description = None
 
         # Access control code here
-        user = check_auth_token(request.form.get('token'))
-        if user is None:
-            return {'message': 'Invalid token'}
-        if check_access_permission(user, entity_type='group', operation_name='GET'):
-            results = model.Group.query.filter(
-                model.Group.id == group_id if group_id is not None else text(''),
-                model.Group.group_name == group_name if group_name is not None else text(''),
-                model.Group.description.like("%" + description + "%") if description is not None else text('')
-            )
-            message = ''
-        else:
-            results = None
-            message = 'You have no permission for this operation'
+        # user = check_auth_token(request.form.get('token'))
+        # if user is None:
+        #     return {'message': 'Invalid token'}
+        # if check_access_permission(user, entity_type='group', operation_name='GET'):
+        #     results = model.Group.query.filter(
+        #         model.Group.id == group_id if group_id is not None else text(''),
+        #         model.Group.group_name == group_name if group_name is not None else text(''),
+        #         model.Group.description.like("%" + description + "%") if description is not None else text('')
+        #     )
+        #     message = ''
+        # else:
+        #     results = None
+        #     message = 'You have no permission for this operation'
+        results = model.Group.query.filter(
+            model.Group.id == group_id if group_id is not None else text(''),
+            model.Group.group_name == group_name if group_name is not None else text(''),
+            model.Group.description.like("%" + description + "%") if description is not None else text('')
+        )
+        message = ''
 
         return {'message': message, 'group_list': results}
 
     def put(self):
-        if request.form.get('group_name') is None:
+        if request.form.get(K_GROUP_NAME) is None:
             return {'message': 'group_name should not be empty!'}
 
-        if model.Group.query.filter(model.Group.group_name == request.form.get('group_name')).first() is not None:
-            return {'message': 'group_name %s already exists!' % request.form.get('group_name')}
+        if model.Group.query.filter(model.Group.group_name == request.form.get(K_GROUP_NAME)).first() is not None:
+            return {'message': 'group_name %s already exists!' % request.form.get(K_GROUP_NAME)}
         group = model.Group(
-            group_name=request.form.get('group_name'),
-            description=request.form.get('description')
+            group_name=request.form.get(K_GROUP_NAME),
+            description=request.form.get(K_GROUP_DESCRIPTION)
         )
         # return 'group_id is %d, group_name is %s, description is %s' % (group.id, group.group_name, group.description)
 
@@ -331,7 +337,7 @@ class Group(Resource):
         return {'message': 'Group creation succeed!'}
 
     def delete(self):
-        group_id = request.form.get('id')
+        group_id = request.form.get(K_GROUP_ID)
 
         group_obj = model.Group.query.filter(
             model.Group.id == group_id
@@ -341,9 +347,9 @@ class Group(Resource):
         return {'message': 'Group deletion succeed!'}
 
     def post(self):
-        group_id = request.form.get('id')
-        group_name = request.form.get('group_name')
-        description = request.form.get('description')
+        group_id = request.form.get(K_GROUP_ID)
+        group_name = request.form.get(K_GROUP_NAME)
+        description = request.form.get(K_GROUP_DESCRIPTION)
 
         group = model.Group.query.filter_by(id=group_id).first()
         if group is not None:
@@ -437,13 +443,17 @@ class Group_Roles(Resource):
     @marshal_with(group_roles_response, envelope='resource')
     def get(self):
         try:
-            group = model.Group.query.filter_by(id=request.args[K_GROUP_ID]).first()
+            group_id = request.args[K_GROUP_ID]
         except BaseException:
-            pass
+            group_id = None
         try:
-            group = model.Group.query.filter_by(group_name=request.args[K_GROUP_NAME]).first()
+            group_name = request.args[K_GROUP_NAME]
         except BaseException:
-            pass
+            group_name = None
+        group = model.Group.query.filter(
+            model.Group.id == group_id if group_id is not None else text(''),
+            model.Group.group_name == group_name if group_name is not None else text('')
+        ).first()
         return {
             "message": '',
             "role_list": group.roles,
@@ -453,7 +463,15 @@ class Group_Roles(Resource):
         }
 
     def post(self):
-        pass
+        role = model.Role.query.filter_by(id=request.form.get(K_GROUP_ID)).first()
+        group = model.Privilege.query.filter_by(id=request.form.get(K_ROLE_ID)).first()
+        if role is None or group is None:
+            return {'message': 'No such role or group'}
+
+        group.roles.push(role)
+        db.session.commit()
+
+        return {'message': ''}
 
 
 role_groups_response = {
@@ -467,29 +485,26 @@ class Role_Groups(Resource):
     @marshal_with(role_groups_response, envelope='resource')
     def get(self):
         try:
-            role = model.Role.query.filter_by(id=request.args[K_ROLE_ID]).first()
-            return {
-                "message": '',
-                "group_list": role.groups,
-                K_ROLE_ID: role.id,
-                K_ROLE_NAME: role.role_name,
-                K_ROLE_DESCRIPTION: role.description
-            }
+            role_id = request.args[K_ROLE_ID]
         except BaseException:
-            pass
+            role_id = None
         try:
-            role = model.Role.query.filter_by(role_name=request.args[K_ROLE_NAME]).first()
-            return {
-                "message": '',
-                "group_list": role.groups,
-                K_ROLE_ID: role.id,
-                K_ROLE_NAME: role.role_name,
-                K_ROLE_DESCRIPTION: role.description
-            }
+            role_name = request.args[K_ROLE_NAME]
         except BaseException:
-            pass
+            role_name = None
 
-        return{'message': "Bad role_id or role_name!"}
+        role = model.Role.query.filter(
+            model.Role.id == role_id if role_id is not None else text(''),
+            model.Role.role_name == role_name if role_name is not None else text('')
+        ).first()
+
+        return {
+            "message": '',
+            "group_list": role.groups,
+            K_ROLE_ID: role.id,
+            K_ROLE_NAME: role.role_name,
+            K_ROLE_DESCRIPTION: role.description
+        }
 
     def post(self):
         pass
@@ -506,13 +521,18 @@ class Role_Privileges(Resource):
     @marshal_with(role_privileges_response, envelope='resource')
     def get(self):
         try:
-            role = model.Role.query.filter_by(id=request.args[K_ROLE_ID]).first()
+            role_id = request.args[K_ROLE_ID]
         except BaseException:
-            pass
+            role_id = None
         try:
-            role = model.Role.query.filter_by(role_name=request.args(K_ROLE_NAME)).first()
+            role_name = request.args(K_ROLE_NAME)
         except BaseException:
-            pass
+            role_name = None
+
+        role = model.Role.query.filter(
+            model.Role.id == role_id if role_id is not None else text(''),
+            model.Role.role_name == role_name if role_name is not None else text('')
+        ).first()
 
         if role is not None:
             return {
@@ -526,6 +546,19 @@ class Role_Privileges(Resource):
             return {
                 'message': 'No such role'
             }
+
+    def post(self):
+        role = model.Role.query.filter_by(id=request.form.get(K_ROLE_ID)).first()
+        privilege = model.Privilege.query.filter_by(id=request.form.get(K_PRIVILEGE_ID)).first()
+
+        if role is None or privilege is None:
+            return {'message': 'No such role or privilege!'}
+
+        role.privileges.push(privilege)
+
+        db.session.commit()
+
+        return {'message': ''}
 
 
 class User(Resource):
@@ -572,7 +605,8 @@ class User(Resource):
 
     def put(self):
         if request.form.get(K_USER_NAME) is None or request.form.get(K_USER_PASSWORD) is None:
-            return {"message": "user_name or password should not be empty"}
+            return {"message": "user_name or password should not be empty user_name is: %s"
+                    % request.form.get('user_name')}
 
         user_name = request.form.get(K_USER_NAME)
         if model.User.query.filter_by(user_name=user_name).first() is not None:
@@ -581,8 +615,9 @@ class User(Resource):
         user = model.User(
             user_name=user_name,
             email=request.form.get(K_USER_EMAIL),
+            password=request.form.get(K_USER_PASSWORD),
             phone_number=request.form.get(K_USER_PHONE_NUMBER),
-            group=model.Group.query.filter_by(group_name=request.form.get(K_USER_GROUP_NAME)),
+            group=model.Group.query.filter_by(group_name=request.form.get(K_USER_GROUP_NAME)).first(),
             gender=request.form.get(K_USER_GENDER)
         )
 

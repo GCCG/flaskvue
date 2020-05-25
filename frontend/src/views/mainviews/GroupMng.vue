@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-04-20 10:14:45
- * @LastEditTime: 2020-05-22 15:09:35
+ * @LastEditTime: 2020-05-22 15:08:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /frontend/src/views/mainviews/UserMng.vue
@@ -10,7 +10,7 @@
 	<div class="op-space">
 		<!--这里来个搜索框-->
 		<div class="block">
-			<search-block style="margin: 0 auto;width:fit-content" v-bind:fields="tablefields" v-on:submitquery='onSearch'></search-block>
+			<search-block style="margin: 0 auto;" v-bind:fields="tablefields" v-on:submitquery='onSearch'></search-block>
 		</div>
 		
 		<!--这里来个操作栏-->
@@ -78,69 +78,38 @@ export default {
 				// 	}
 				// },
 				{
-					field_name: 'user_name',
-					value: null,
-					config: {
-						type: 'input',
-					}
-				},
-				{
-					field_name: 'password',
-					value: null,
-					config: {
-						type: 'input',
-					}
-				},
-				{
-					field_name:'email',
-					value: null,
-					config: {
-						type: 'input'
-					}
-				},
-				{
 					field_name: 'group_name',
 					value: null,
 					config: {
-						type: 'select',
-						options: ['admin_group', 'normal_group']
+						type: 'input',
 					}
 				},
 				{
-					field_name:'phone_number',
+					field_name: 'description',
 					value: null,
 					config: {
-						type: 'input'
+						type: 'textarea',
 					}
 				},
-				{
-					field_name:'gender',
-					value: null,
-					config: {
-						type: 'select',
-						options: ['male','female']
-					}
-				},
-				
 			]
 		}
 	},
 	methods: {
 		func1: function(response) {
-			console.log(response.data.resource.user_list)
+			console.log(response.data.resource.group_list)
 			this.tablefields = []
 			// var i = 0
 			if (response.data.resource.message !=''){
 				alert(response.data.message)
 				return 
 			}
-			var user_list = response.data.resource.user_list
-			for (let key in user_list[0]){
+			var group_list = response.data.resource.group_list
+			for (let key in group_list[0]){
 				this.tablefields.push(key)
 				this.params[key] = null
 				// i = i +1 
 			}
-			this.rows = user_list
+			this.rows = group_list
 					
 			this.field_num = this.tablefields.length
 			this.row_num = this.rows.length
@@ -150,7 +119,7 @@ export default {
 			// console.log(this.field_num)
 		},
 		func2: function(){
-			axios.get(backendApi.user).then(this.func1)
+			axios.get(backendApi.group).then(this.func1)
 			// console.log('Message after add operation is: '+JSON.stringify(response))
 		},
 		onSelectionChanged: function(args){
@@ -161,22 +130,22 @@ export default {
 		onSearch: function(queryinfo){
 			this.params = {}
 			for (let index in queryinfo){
-				if(queryinfo[index]['field'] != ''){
+				if(queryinfo[index]['field'] != '' && queryinfo[index]['value'] != null){
 					console.log('info is: '+JSON.stringify(queryinfo[index]))
 					this.params[queryinfo[index]['field']] = queryinfo[index]['value']
 				}
 			}
 			console.log('parameters are: '+JSON.stringify(this.params))
 
-			axios.get(backendApi.user, {params: this.params}).then(this.queryUsers)
+			axios.get(backendApi.group, {params: this.params}).then(this.queryUsers)
 		},
 		onAdd: function(){
-			// axios.get(backendApi.user, {method: 'put'})
+			// axios.get(backendApi.group, {method: 'put'})
 		},
 		queryUsers: function(response){
 			
-			console.log(response.data.resource.user_list)
-			this.rows = response.data.resource.user_list
+			console.log(response.data.resource.group_list)
+			this.rows = response.data.resource.group_list
 			this.field_num = this.tablefields.length
 			this.row_num = this.rows.length
 			this.selected_num = 0
@@ -198,7 +167,7 @@ export default {
 					if(this.selected_rows[i]==1){
 						console.log('Delete user with id '+this.rows[i]['user_id'])
 						axios.delete(
-							backendApi.user,
+							backendApi.group,
 							{
 								headers: {
 									'Content-Type': 'application/x-www-form-urlencoded',
@@ -229,7 +198,7 @@ export default {
 		onAddOK: function(info){
 			console.log("Info in popwindow is: "+JSON.stringify(info))
 			axios.put(
-				backendApi.user,
+				backendApi.group,
 				qs.stringify(info),
 				{
 					headers: {
@@ -246,7 +215,7 @@ export default {
 				this.rows[this.edit_index][key] = info[key]
 			}
 			axios.post(
-				backendApi.user,
+				backendApi.group,
 				qs.stringify(this.rows[this.edit_index]),
 				{
 					headers:{
@@ -258,7 +227,7 @@ export default {
 		}
 	},
 	created: function() {
-		axios.get(backendApi.user).then(this.func1)
+		axios.get(backendApi.group).then(this.func1)
 	}
 
 }
@@ -270,12 +239,14 @@ export default {
 	left: 210px;
 	bottom: 0px;
 	right: 0px;
+	/* background-color: #CCFFFF; */
 	background-color: white;
 
 }
 .block {
 	margin-top: 10px;
 	/*background-color: wheat; */
+	/* background-color: #CCFFFF; */
 	background-color: white;
 	margin-left:10px; 
 	margin-right:10px;
@@ -284,6 +255,7 @@ export default {
 .table-block {
 	margin-top: 10px;
 	/*background-color: wheat; */
+	/* background-color: #CCFFFF; */
 	background-color: white;
 	margin-left:10px; 
 	margin-right:10px;

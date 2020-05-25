@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-04-19 22:01:12
- * @LastEditTime: 2020-04-22 17:06:16
+ * @LastEditTime: 2020-05-22 10:43:46
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /frontend/src/components/menuitem.vue
@@ -25,7 +25,7 @@ export default {
 	margin-left: 40px;
 	padding-left: 5px;
 	width: 156px;
-
+	
 	background-color: #99CCFF;
 
 	/*float: left;*/

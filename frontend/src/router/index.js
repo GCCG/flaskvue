@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-04-18 10:40:50
- * @LastEditTime: 2020-04-22 11:09:06
+ * @LastEditTime: 2020-05-22 11:06:38
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /frontend/src/router/index.js
@@ -13,6 +13,10 @@ import Home from '../views/Home.vue'
 //import Mainview from '../views/Main.vue'
 
 import UserMng from '../views/mainviews/UserMng.vue'
+import RoleMng from '../views/mainviews/RoleMng.vue'
+import GroupMng from '../views/mainviews/GroupMng.vue'
+import AuthConfig from '../views/mainviews/AuthConfig.vue'
+import StationMng from '../views/mainviews/StationMng.vue'
 import AuthView from '../views/Auth.vue'
 import AuthLogin from '../views/authviews/Login.vue'
 import AuthRegister from '../views/authviews/Register.vue'
@@ -61,6 +65,26 @@ Vue.use(VueRouter)
         path: '/main-page/blank',
         name: 'Blank',
         component: BlankPage
+      },
+      {
+        path: '/main-page/role-mng',
+        name: 'RoleMng',
+        component: RoleMng
+      },
+      {
+        path: '/main-page/group-mng',
+        name: 'GroupMng',
+        component: GroupMng
+      },
+      {
+        path: '/main-page/auth-config',
+        name: 'AuthConfig',
+        component: AuthConfig,
+      },
+      {
+        path: '/main-page/station-mng',
+        name: 'StationMng',
+        component: StationMng,
       },
     ]
 	},

@@ -26,10 +26,10 @@ export default {
     data: function(){
 		return {
 			queryInfo: [
-				{field:'',value:''},
-				{field:'',value:''},
-				{field:'',value:''},
-				{field:'',value:''},
+				{field:'',value:null},
+				{field:'',value:null},
+				{field:'',value:null},
+				{field:'',value:null},
 			],
 			imgBorderStyle: 'outset'
 						
@@ -55,20 +55,32 @@ export default {
 			this.queryInfo[3].field = field
 		},
 		valueChanged1: function(value){
-			this.queryInfo[0].value = value
+			if(value !='')
+				this.queryInfo[0].value = value
+			else
+				this.queryInfo[0].value = null
 		},
 		valueChanged2: function(value){
-			this.queryInfo[1].value = value
+			if(value !='')
+				this.queryInfo[1].value = value
+			else
+				this.queryInfo[1].value = null
 		},
 		valueChanged3: function(value){
-			this.queryInfo[2].value = value
+			if(value !='')
+				this.queryInfo[2].value = value
+			else
+				this.queryInfo[2].value = null
 		},
 		valueChanged4: function(value){
-			this.queryInfo[3].value = value
+			if(value !='')
+				this.queryInfo[3].value = value
+			else
+				this.queryInfo[3].value = null
 		},
 		submitQuery: function(){
             this.$emit('submitquery',this.queryInfo)
-            console.log('submitQuery')
+            console.log('submitquery')
 		},
 					
 		//把img元素包装成button效果
@@ -96,7 +108,7 @@ export default {
 	border-style: dashed;
 	border-color: grey;
 	border-radius: 45px;
-	border-width: 2px;
+	border-width: 0px;
 
 	/*block的边界和填充 */
 	margin: 10px;
@@ -105,11 +117,11 @@ export default {
 	display: flex; 
 
 	height: 100px; 
-	/*width: 820px;*/
+	width: 550px;
 	background-color: azure;
 
 	/*使得block的宽度适应里面元素的宽度占用 */
-	width: fit-content;
+	/* width: fit-content; */
 }
 
 .searchblock img {
@@ -121,7 +133,7 @@ export default {
 	border-radius: 20px;
 	width: 50px; 
 	border-style: outset; 
-	border-color: aquamarine;
+	border-color: #CCFFFF;
 }
 .searchblock div {
 	flex-direction: row; 
