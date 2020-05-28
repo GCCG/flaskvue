@@ -52,7 +52,7 @@ def create_entity(db):
                                                     the operation which relates to this privilege can act on \
                                                     any entity belongs to the entity type to which the operation \
                                                     belongs.', entity_info_id=0)
-    entity_type = EntityType.query.filter_by(entity_type_name='entity_type').first()
+    entity_type = EntityType.query.filter_by(entity_type_name='group').first()
     entity_type.entities.append(entity)
 
     db.session.commit()

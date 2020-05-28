@@ -1,14 +1,14 @@
 <!--
  * @Author: your name
  * @Date: 2020-05-19 16:59:17
- * @LastEditTime: 2020-05-20 16:54:03
+ * @LastEditTime: 2020-05-27 10:25:47
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /frontend/src/views/popviews/add_user.vue
 --> 
 <template>
-    <div class='popwindow'>
-        <div style="text-align: center; margin-bottom:10px;">
+    <div class='popform'>
+        <div style="text-align: center; margin-bottom:10px;font-weight:bold;">
             {{title}}
         </div>
         <div v-for="field in fields" :key="field['field_name']">
@@ -50,12 +50,12 @@ export default {
         }
     }
 
-    
+
 }
 </script>
 
 <style scoped>
-.popwindow {
+.popform {
     background-color:aliceblue;
     width: 200px;
     text-align: left;

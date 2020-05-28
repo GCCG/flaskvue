@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-05-20 08:57:00
- * @LastEditTime: 2020-05-20 16:55:16
+ * @LastEditTime: 2020-05-27 10:26:37
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /frontend/src/components/multiform_input.vue
@@ -9,7 +9,7 @@
 <template>
     <div>
         <div style="margin-bottom:5px;margin-top:5px">
-            <label >{{field_name}}:</label>
+            <label>{{field_name}}:</label>
         </div>
         
         <!-- <p>In multiform-input</p> -->
@@ -54,15 +54,25 @@ export default {
 select {
     min-width: 100px;
     background-color:antiquewhite;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 2px;
 }
 input {
     /* min-width: 100px; */
-    background-color:aqua;
+    background-color:#CCFFFF;
     height: auto;
+    /* min-width: 100px; */
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 2px;
 }
 textarea {
     min-height: 100px;
-    background-color:aqua;
+    background-color:#CCFFFF;
     /* min-width: 100px; */
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 2px;
 }
 </style>

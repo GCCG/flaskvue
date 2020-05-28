@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-04-20 10:14:45
- * @LastEditTime: 2020-05-22 15:08:41
+ * @LastEditTime: 2020-05-28 12:14:37
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /frontend/src/views/mainviews/UserMng.vue
@@ -25,8 +25,8 @@
 		<!--这里来个状态栏-->
 
 		<!--这里来个弹窗-->
-		<pop-window class="popwindow" v-if="edit_pop" @Cancel="onEditCancel" @OK="onEditOK" :title='edit_pop_title' :fields='pop_fields'></pop-window>
-		<pop-window class="popwindow" v-if="add_pop" @Cancel="onAddCancel" @OK="onAddOK" :title='add_pop_title' :fields='pop_fields'></pop-window>
+		<pop-window class="popform" v-if="edit_pop" @Cancel="onEditCancel" @OK="onEditOK" :title='edit_pop_title' :fields='pop_fields'></pop-window>
+		<pop-window class="popform" v-if="add_pop" @Cancel="onAddCancel" @OK="onAddOK" :title='add_pop_title' :fields='pop_fields'></pop-window>
 		<!-- <p>什么情况？</p> -->
 	</div>
 </template>
@@ -35,7 +35,7 @@
 import searchblock from "../../components/searchblock"
 import operationbar from "../../components/operationbar"
 import tableblock from "../../components/tableblock"
-import popwindow from "../../components/popwindow"
+import popform from "../../components/popform"
 // import BACKEND_API_PREFIX from "../../backend_api/restful_api"
 import backendApi from "../../restful_api/backend_api"
 import axios from 'axios'
@@ -49,7 +49,7 @@ export default {
 		'search-block': searchblock,
 		'operation-bar': operationbar,
 		'table-block': tableblock,
-		'pop-window': popwindow,
+		'pop-window': popform,
 	},
 	props: ['fields'],
 	data: function(){
@@ -196,7 +196,7 @@ export default {
 			console.log('add_pop is: '+this.add_pop)
 		},
 		onAddOK: function(info){
-			console.log("Info in popwindow is: "+JSON.stringify(info))
+			console.log("Info in popform is: "+JSON.stringify(info))
 			axios.put(
 				backendApi.group,
 				qs.stringify(info),
@@ -268,7 +268,7 @@ export default {
 	right: 0px;
 }
 
-.popwindow {
+.popform {
 	/* position: absolute;
 	top: 50%;
 	left: 50%; */

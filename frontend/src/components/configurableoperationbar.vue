@@ -1,18 +1,16 @@
 <!--
  * @Author: your name
  * @Date: 2020-05-22 15:36:05
- * @LastEditTime: 2020-05-25 11:39:18
+ * @LastEditTime: 2020-05-28 11:16:32
  * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
+ * @Description: 可配置的操作栏。拥有一个信息label和一组操作按钮。
+                信息label接受对象info作为初始显示信息，并通过方法resetLabel来重置信息。
+                操作按钮根据对象数组buttons来创建多个button
  * @FilePath: /frontend/src/components/configableoperationbar.vue
 --> 
 <template>
     <div class='operationbar' >
 		<label >{{label}}</label>
-		<!-- <button type="button" @click="onAllSelect">全选</button>
-		<button type="button" @click="onDelete">删除</button>
-		<button type="button" @click="onEdit">编辑</button>
-		<button type="button" @click="onAdd">新增</button> -->
         <button type="button" v-for="button in buttons" :key="button.field" @click="onClick(button)">{{button.field}}</button>
 						
 	</div>
@@ -26,18 +24,31 @@ const eventName = 'operation'
 export default {
     name: 'configurable-operation-bar',
     props: ['info','buttons'],
-    label: '',
+    data: function(){
+        return {
+            label: '',
+        }
+    },
+    
     methods:{
         onClick: function(button){
             this.$emit(eventName, button.event_option)
-        }
+            // this.resetLabel([])
+        },
+        resetLabel: function(info){
+            this.label = ''
+            for(let key in info){
+                this.label = this.label + key + '：' + info[key] + '；'
+            }
+            console.log('In configurableoperationbar, resetLable, label is:'+this.label)
+        },
     },
     watch: {
         info: {
             handler: function(){
                 this.label = ''
-                for(let index in this.info){
-                    this.label = this.label +this.info[index].field + '：' + this.info[index].value +'；'
+                for(let key in this.info){
+                    this.label = this.label + key + '：' + this.info[key] + '；'
                 }
             },
             immediate: true,

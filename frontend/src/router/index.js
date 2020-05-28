@@ -1,14 +1,14 @@
 /*
  * @Author: your name
  * @Date: 2020-04-18 10:40:50
- * @LastEditTime: 2020-05-22 11:06:38
+ * @LastEditTime: 2020-05-28 11:44:17
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /frontend/src/router/index.js
  */
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+// import Home from '../views/Home.vue'
 //import About from '../views/About.vue'
 //import Mainview from '../views/Main.vue'
 
@@ -88,21 +88,21 @@ Vue.use(VueRouter)
       },
     ]
 	},
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-	},
+  // {
+  //   path: '/',
+  //   name: 'Home',
+  //   component: Home
+	// },
 
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-    //component: About
-	}
+  // {
+  //   path: '/about',
+  //   name: 'About',
+  //   // route level code-splitting
+  //   // this generates a separate chunk (about.[hash].js) for this route
+  //   // which is lazy-loaded when the route is visited.
+  //   component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+  //   //component: About
+	// }
 	
 ]
 

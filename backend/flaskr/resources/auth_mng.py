@@ -190,6 +190,7 @@ class Operation(Resource):
 K_PRIVILEGE_ID = 'privilege_id'
 K_PRIVILEGE_OPERATION_ID = 'operation_id'
 K_PRIVILEGE_OPERATION_NAME = 'operation_name'
+K_PRIVILEGE_ENTITY_TYPE_NAME = 'entity_type_name'
 K_PRIVILEGE_ENTITY_ID = 'entity_id'
 K_PRIVILEGE_ENTITY_NAME = 'entity_name'
 privilege_fields = {
@@ -197,6 +198,7 @@ privilege_fields = {
     K_PRIVILEGE_OPERATION_ID: fields.Integer(attribute='operation_id'),
     K_PRIVILEGE_OPERATION_NAME: fields.String(attribute='operation.operation_name'),
     K_PRIVILEGE_ENTITY_ID: fields.Integer(attribute='entity_id'),
+    K_PRIVILEGE_ENTITY_TYPE_NAME: fields.String(attribute='entity.entity_type.entity_type_name'),
     K_PRIVILEGE_ENTITY_NAME: fields.String(attribute='entity.entity_name')
 
 }
@@ -454,6 +456,8 @@ class Group_Roles(Resource):
             model.Group.id == group_id if group_id is not None else text(''),
             model.Group.group_name == group_name if group_name is not None else text('')
         ).first()
+        if group is None:
+            return {'message': 'No such group'}
         return {
             "message": '',
             "role_list": group.roles,
@@ -463,15 +467,24 @@ class Group_Roles(Resource):
         }
 
     def post(self):
-        role = model.Role.query.filter_by(id=request.form.get(K_GROUP_ID)).first()
-        group = model.Privilege.query.filter_by(id=request.form.get(K_ROLE_ID)).first()
+        group = model.Group.query.filter_by(id=request.form.get(K_GROUP_ID)).first()
+        role = model.Role.query.filter_by(id=request.form.get(K_ROLE_ID)).first()
         if role is None or group is None:
             return {'message': 'No such role or group'}
 
-        group.roles.push(role)
+        group.roles.append(role)
         db.session.commit()
 
         return {'message': ''}
+    
+    def delete(self):
+        group = model.Group.query.filter_by(id=request.form.get(K_GROUP_ID)).first()
+        role = model.Role.query.filter_by(id=request.form.get(K_ROLE_ID)).first()
+        if role is None or group is None:
+            return {'message': 'No such role or group'}
+
+        group.roles.remove(role)
+        db.session.commit()
 
 
 role_groups_response = {
@@ -554,11 +567,22 @@ class Role_Privileges(Resource):
         if role is None or privilege is None:
             return {'message': 'No such role or privilege!'}
 
-        role.privileges.push(privilege)
+        role.privileges.append(privilege)
 
         db.session.commit()
 
         return {'message': ''}
+
+    def delete(self):
+        role = model.Role.query.filter_by(id=request.form.get(K_ROLE_ID)).first()
+        privilege = model.Privilege.query.filter_by(id=request.form.get(K_PRIVILEGE_ID)).first()
+
+        if role is None or privilege is None:
+            return {'message': 'No such role or privilege'}
+
+        role.privileges.remove(privilege)
+
+        db.session.commit()
 
 
 class User(Resource):
